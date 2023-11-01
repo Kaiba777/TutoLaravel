@@ -26,6 +26,15 @@
             text-decoration: none;
             color: white;
         }
+
+        .container .alert {
+            background: rgba(170, 98, 236, 0.877);
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -39,7 +48,11 @@
     </nav>
 
    <div class="container">
-    @dump(request()->route()->getName())
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     @yield('content')
    </div>
     

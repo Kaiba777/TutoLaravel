@@ -7,9 +7,38 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\BlogFilterRequest;
+use App\Http\Requests\FormPostRequest;
 
 class PostController extends Controller
 {
+
+    public function create ()
+    {
+        $post = new Post();
+        return view('blog.create',[
+            'post' => $post
+        ]);
+    }
+
+    public function store(FormPostRequest $request) 
+    {
+        $post = Post::create($request->validated());
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', "L'article a bien été sauvegardé");
+    }
+
+    public function edit (Post $post)
+    {
+        return view('blog.edit',[
+            'post' => $post
+        ]);
+    }
+
+    public function update(Post $post, FormPostRequest $request)
+    {
+        $post->update($request->validated());
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'post' => $post->id])->with('success', "L'article a bien été modifier");
+    }
+
     public function index (BlogFilterRequest $request) : View 
     {
         
