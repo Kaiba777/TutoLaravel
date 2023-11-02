@@ -22,5 +22,11 @@
             {{ $message }}
         @enderror
     </div>
-    <button>Enregistrer</button>
+    <button>
+        @if ($post->id)
+            Modifier
+        @else
+            Créer
+        @endif
+    </button>
 </form>
