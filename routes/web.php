@@ -4,6 +4,7 @@
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 
 /*
@@ -21,13 +22,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::delete('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/login', [AuthController::class, 'doLogin']);
+
+
 Route::prefix('/blog')->name('blog.')->controller(PostController::class)->group(function () {
 
-    Route::get('/new', 'create')->name('create');
-    Route::post('/new', 'store');
+    Route::get('/new', 'create')->name('create')->middleware('auth');
+    Route::post('/new', 'store')->middleware('auth');
 
-    Route::get('/{post}/edit','edit')->name('edit');
-    Route::post('/{post}/edit', 'update');
+    Route::get('/{post}/edit','edit')->name('edit')->middleware('auth');
+    Route::post('/{post}/edit', 'update')->middleware('auth');
 
     Route::get('/', 'index')->name('index');
     

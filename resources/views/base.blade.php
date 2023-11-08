@@ -11,13 +11,16 @@
             background: blue;
             height: 50px;
             margin-top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #nav1 ul {
             padding-top: 15px;
-            width: 100%;
+            width: 60%;
             height: 100%;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: space-around;
             list-style: none;
             color: white;
         }
@@ -45,6 +48,19 @@
             <li><a href="{{ route('blog.index') }}">Blog</a></li>
             <li>Link</li>
         </ul>
+        <div>
+            @auth
+                {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                <form action="{{ route('auth.logout') }}" method="post">
+                    @method('delete')
+                    @csrf
+                    <button>Se déconnecter</button>
+                </form>
+            @endauth
+            @guest
+                <a href="{{ route('auth.login') }}">Se connecter</a>
+            @endguest
+        </div>
     </nav>
 
    <div class="container">
